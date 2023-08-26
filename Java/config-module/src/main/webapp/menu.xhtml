@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form prependId="false">
+        <p:menubar>
+            <p:submenu label="#{msg.CADASTRO}" styleClass="submenu">
+                <p:menuitem value="#{msg.BANCO}" action="#{navegacaoController.paginaCadastroBanco()}" styleClass="menuItem"/>
+                <p:menuitem value="#{msg.USUARIO}" action="#{navegacaoController.paginaCadastroUsuario()}" styleClass="menuItem"/>
+            </p:submenu>
+            <p:submenu label="#{msg.CONTA}" style="position: absolute; right: 6px" styleClass="submenu">
+                <p:menuitem value="#{msg.ALTERAR_SENHA}" action="#{navegacaoController.paginaAlterarSenha()}" styleClass="menuItem"/>
+                <p:menuitem value="#{msg.SAIR}" action="#{navegacaoController.logout()}" styleClass="menuItem"/>
+            </p:submenu>
+        </p:menubar>
+    </h:form>
+</ui:composition>

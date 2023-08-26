@@ -1,0 +1,15 @@
+.ui-menubar{
+    background: #5c9ccc !important;
+    color: white !important;
+}
+
+.submenu{
+    font-size: 25px !important;
+    font-weight: 900 !important;
+}
+
+.menuItem{
+    font-size: 15px !important;
+}
+
+

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="template.xhtml">
+
+    <ui:define name="head">
+        <h:outputStylesheet library="css" name="cadastro.css"/>
+        <h:outputStylesheet library="css" name="cadastroUsuario.css"/>
+    </ui:define>
+    <ui:define name="corpo">
+        <h:form id="formAlterarSenha" prependId="false">
+            <p:panel id="toggleable" header="#{msg.ALTERAR_SENHA}" widgetVar="panel">
+                <p:messages closable="true"/>
+                <h:panelGrid columns="2" styleClass="panelGridAlterarSenha">
+                
+                    <p:outputLabel value="#{msg.SENHA_ANTIGA}:" for="senhaAntiga"/>
+                    <p:password value="#{usuarioController.identidade.usuario.senhaAntiga}" id="senhaAntiga" styleClass="entrada"/>
+                    
+                    <p:outputLabel value="#{msg.SENHA_NOVA}:" for="senhaNova" />
+                    <p:password value="#{usuarioController.identidade.usuario.senha}"  id="senhaNova" styleClass="entrada" feedback="true" weakLabel="#{msg.FRACO}" goodLabel="#{msg.BOM}" promptLabel="#{msg.ENTRAR_SENHA}"/>
+                    
+                    <p:outputLabel value="#{msg.CONFIRMA_SENHA}:" for="confirmaSenha"/>
+                    <p:password value="#{usuarioController.identidade.usuario.confirmaSenha}" id="confirmaSenha" styleClass="entrada"/>
+                    <p:commandButton value="#{msg.SALVAR}" action="#{usuarioController.alterarSenha()}" update=":formAlterarSenha"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>     
+    </ui:define>
+</ui:composition>

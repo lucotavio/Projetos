@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <h:outputStylesheet library="css" name="cadastro.css"/>
+        <h:outputStylesheet library="css" name="configurarAplicacao.css"/>
+    </ui:define>
+    <ui:define name="corpo">
+        <h:form id="formListaAplicacao" prependId="false">
+            <p:panel  rendered="#{!aplicacaoController.bancoPossuiTabelas}">
+                <p:messages/>
+            </p:panel>
+            <p:panel  header="#{msg.APLICACAO}" widgetVar="panel" rendered="#{aplicacaoController.bancoPossuiTabelas}">
+                <p:dataTable id="tabelaListaAplicacoes" value="#{aplicacaoController.listaAplicacaoConfiguracao}" resizableColumns="true" var="aplicacaoConfiguracao" paginator="true" paginatorPosition="bottom" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" emptyMessage="#{msg.NAO_EXISTEM_APLICACOES_CADASTRADAS}" >
+                    <p:column headerText="#{msg.NOME}">
+                        <h:outputText value="#{aplicacaoConfiguracao.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg.SELECIONAR}" styleClass="selecionar">
+                        <p:commandLink action="#{aplicacaoController.selecionarAplicacaoParaAlterarConfiguracao()}" update=":formConfigurarAplicacao" style="margin-left: 10px;">
+                            <p:graphicImage value="/resources/imagem/edit.png"/>
+                            <f:setPropertyActionListener value="#{aplicacaoConfiguracao}" target="#{aplicacaoController.aplicacaoConfiguracao}"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+        <h:form id="formConfigurarAplicacao" prependId="false">
+            <p:growl id="mensagemConfigurarAplicacao" showDetail="false"/>
+            <p:panel header="#{msg.CONFIGURANDO} #{aplicacaoController.aplicacaoConfiguracao.nome}" widgetVar="panel" rendered="#{aplicacaoController.bancoPossuiTabelas}">
+                <p:messages/>
+                <p:dataTable id="tabelaListaConfiguracao" value="#{aplicacaoController.aplicacaoConfiguracao.listaConfiguracao}" var="configuracao" editable="true" emptyMessage="#{msg.NENHUMA_APLICACAO_SELECIONADA}" sortBy="#{configuracao.rotuloInternacionalizado}">
+                    <p:ajax event="rowEdit" listener="#{aplicacaoController.salvarConfiguracao}" update="tabelaListaConfiguracao, :formConfigurarAplicacao:mensagemConfigurarAplicacao"/> 
+                    <p:column headerText="#{msg.ROTULO}" styleClass="rotulo">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{configuracao.rotuloInternacionalizado}" title="#{configuracao.chave}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:outputText value="#{configuracao.rotuloInternacionalizado}" styleClass="entrada"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="#{msg.VALOR}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{configuracao.valor}" title="#{configuracao.descricaoInternacionalizado}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{configuracao.valor}" styleClass="entrada"/>
+                            </f:facet>
+                        </p:cellEditor>                      
+                    </p:column>
+                    <p:column headerText="#{msg.ALTERAR}" styleClass="alterar">
+                        <p:rowEditor/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

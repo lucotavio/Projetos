@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <CONFIG_MODULE_TESTE.TB_TIPO_BANCO ID="1" NOME="Oracle 11g" DRIVER="oracle.jdbc.OracleDriver" DIALETO="org.hibernate.dialect.Oracle10gDialect"/>
+    <CONFIG_MODULE_TESTE.TB_BANCO ID="1" ALIAS="SCO" URL="jdbc:postgresql://localhost:5432/SCO" USUARIO="luciano" SENHA="12312345" ID_TIPO_BANCO="1"/>
+    <CONFIG_MODULE_TESTE.TB_BANCO ID="2" ALIAS="SCO_TESTE" URL="jdbc:postgresql://localhost:5432/SCO_TESTE" USUARIO="luciano" SENHA="123123" ID_TIPO_BANCO="1"/>
+    <CONFIG_MODULE_TESTE.TB_BANCO ID="3" ALIAS="SCO_TESTE_NOVO" URL="jdbc:postgresql://localhost:5432/SCO_TESTE_NOVO" USUARIO="luciano" SENHA="1231234" ID_TIPO_BANCO="1"/>
+    <CONFIG_MODULE_TESTE.TB_BANCO ID="4" ALIAS="MECE" URL="jdbc:postgresql://localhost:5432/MECE" USUARIO="luciano" SENHA="123123" ID_TIPO_BANCO="1"/>
+    <CONFIG_MODULE_TESTE.TB_BANCO ID="5" ALIAS="MECE_TESTE" URL="jdbc:postgresql://localhost:5432/MECE_TESTE" USUARIO="luciano" SENHA="4589632" ID_TIPO_BANCO="1"/>
+    <CONFIG_MODULE_TESTE.TB_BANCO ID="6" ALIAS="FRAUDE" URL="jdbc:postgresql://localhost:5432/FRAUDE" USUARIO="luciano" SENHA="369369" ID_TIPO_BANCO="1"/>
+</dataset>

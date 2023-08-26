@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <h:outputStylesheet library="css" name="cadastro.css"/>
+        <h:outputStylesheet library="css" name="cadastroUsuario.css"/>
+    </ui:define>
+    <ui:define name="corpo">
+        <h:form id="formCadastroUsuario" prependId="false">
+            <p:panel id="toggleable" header="#{msg.DADOS_USUARIO}" widgetVar="panel">
+                <p:messages closable="true"/>
+                <h:panelGrid columns="2" styleClass="panelGridCadastro">
+                    <p:outputLabel value="#{msg.NOME}:" for="nome"/>
+                    <p:inputText value="#{usuarioController.usuario.nome}" id="nome" styleClass="entrada"/>
+
+                    <p:outputLabel value="#{msg.LOGIN}:" for="login"/>
+                    <p:inputText value="#{usuarioController.usuario.login}" id="login" styleClass="entrada"/>
+
+                    <p:outputLabel value="#{msg.EMAIL}:" for="email"/>
+                    <p:inputText value="#{usuarioController.usuario.email}" id="email" styleClass="entrada"/>
+
+                    <p:outputLabel value="#{msg.SENHA}:" for="senha" rendered="#{usuarioController.novoUsuario}"/>
+                    <p:password value="#{usuarioController.usuario.senha}" id="senha" styleClass="entrada" feedback="true" weakLabel="#{msg.FRACO}" goodLabel="#{msg.BOM}" promptLabel="#{msg.ENTRAR_SENHA}" rendered="#{usuarioController.novoUsuario}"/>
+
+                    <p:outputLabel value="#{msg.CONFIRMA_SENHA}:" for="confirmaSenha" rendered="#{usuarioController.novoUsuario}"/>
+                    <p:password value="#{usuarioController.usuario.confirmaSenha}" id="confirmaSenha" styleClass="entrada" rendered="#{usuarioController.novoUsuario}"/>
+                    
+                    <p:commandButton value="#{msg.SALVAR}" action="#{usuarioController.salvarUsuario()}" update=":formCadastroUsuario, :formListaUsuarios:tabelaListaUsuarios" rendered="#{usuarioController.novoUsuario}"/>
+                    <p:commandButton value="#{msg.ALTERAR}" action="#{usuarioController.alterarUsuario()}" update=":formCadastroUsuario, :formListaUsuarios:tabelaListaUsuarios" process="@this, nome, login, email" rendered="#{!usuarioController.novoUsuario}"/>
+                    <p:commandButton value="#{msg.CANCELAR}" action="#{usuarioController.cancelar()}" update=":formCadastroUsuario" process="@this" rendered="#{!usuarioController.novoUsuario}"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="formListaUsuarios" prependId="false">
+            <p:panel header="#{msg.USUARIOS_CADASTRADOS}" id="painelListaUsuarios" >
+                <p:messages id="mensagemListaUsuarios" closable="true"/>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{msg.PESQUISAR_POR}:" for="tipoPesquisa"/>
+                    <p:selectOneMenu id="tipoPesquisa" value="#{usuarioController.campoSendoPesquisado}" styleClass="selectOneMenu">
+                        <f:selectItem itemLabel="#{msg.NOME}" itemValue="nome"/>
+                        <f:selectItem itemLabel="#{msg.LOGIN}" itemValue="login"/>
+                        <f:selectItem itemLabel="#{msg.EMAIL}" itemValue="email"/>
+                        <p:ajax process="tipoPesquisa" update="gridValorPesquisa"/> 
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="3" id="gridValorPesquisa">
+                    <p:outputLabel value="#{msg.NOME}:" for="valorPesquisa" rendered="#{usuarioController.campoSendoPesquisado == 'nome'}" styleClass="labelPesquisa"/>
+                    <p:outputLabel value="#{msg.LOGIN}:" for="valorPesquisa" rendered="#{usuarioController.campoSendoPesquisado == 'login'}" styleClass="labelPesquisa"/>
+                    <p:outputLabel value="#{msg.EMAIL}:" for="valorPesquisa" rendered="#{usuarioController.campoSendoPesquisado == 'email'}" styleClass="labelPesquisa"/>
+                    <p:inputText value="#{usuarioController.valorCampoSendoPesquisado}" id="valorPesquisa" styleClass="pesquisa">
+                        <p:ajax event="change" process="valorPesquisa"/>
+                    </p:inputText>
+                    <p:commandButton action="#{usuarioController.pesquisarUsuario()}" value="#{msg.PESQUISAR}" update="tabelaListaUsuarios"/>
+                </h:panelGrid>
+                <p:dataTable var="usuario" id="tabelaListaUsuarios" value="#{usuarioController.listaUsuarios}" sortBy="#{usuario.nome}" paginator="true" paginatorPosition="bottom" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" emptyMessage="#{msg.NAO_EXISTEM_USUARIOS_CADASTRADOS}">
+                    <p:column headerText="#{msg.NOME}">
+                        <h:outputText value="#{usuario.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg.LOGIN}">
+                        <h:outputText value="#{usuario.login}"/>
+                    </p:column>
+                    <p:column headerText="#{msg.EMAIL}">
+                        <h:outputText value="#{usuario.email}"/>
+                    </p:column>
+                    <p:column headerText="#{msg.ALTERAR}" styleClass="alterar">
+                        <p:commandLink actionListener="#{usuarioController.selecionarUsuarioParaAlterarCampos(usuario)}" update=":formCadastroUsuario" style="margin-left: 10px;">
+                            <p:graphicImage value="/resources/imagem/edit.png"/>
+                        </p:commandLink>
+                    </p:column>
+                    <p:column headerText="#{msg.EXCLUIR}" styleClass="excluir">
+                        <p:commandLink actionListener="#{usuarioController.excluirUsuario(usuario.id)}" update="tabelaListaUsuarios" style="margin-left: 10px;">
+                            <p:graphicImage value="/resources/imagem/delete.png"/>
+                            <p:confirm header="#{msg.CONFIRMACAO}" message="#{msg.EXCLUIR_USUARIO}?" icon="ui-icon-alert"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+                <p:commandButton value="#{msg.SIM}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{msg.NAO}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

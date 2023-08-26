@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:b="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+  
+    <http use-expressions="true" auto-config="true" > 
+        <intercept-url pattern="/cadastro/**" access="isAuthenticated()" />
+        <intercept-url pattern="/**" access="permitAll" />
+        <form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?erro=true" default-target-url="/cadastro/cadastroUsuario.xhtml" always-use-default-target="true" />
+        <access-denied-handler error-page="/semPermissao.xhtml" />
+        <logout logout-success-url="/login.xhtml" invalidate-session="true" delete-cookies="true"/>
+    </http>
+
+    <b:bean id='bCryptPasswordEncoder' class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
+
+    
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource"
+               users-by-username-query="SELECT login as username, senha as password, ativo as enable FROM tb_usuario WHERE login=?"
+               authorities-by-username-query="SELECT login as username, papel as authority FROM tb_autorizacao 
+                                             INNER JOIN tb_usuario
+                                             ON tb_autorizacao.id = tb_usuario.id_autorizacao WHERE login=?"/>
+            <password-encoder ref="bCryptPasswordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>  
+      
+</b:beans>

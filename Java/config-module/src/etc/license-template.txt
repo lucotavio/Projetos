@@ -1,0 +1,2 @@
+Copyright (c) ${project.inceptionYear}, Siemens AG and/or its affiliates. All rights reserved.
+SIEMENS AG PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.

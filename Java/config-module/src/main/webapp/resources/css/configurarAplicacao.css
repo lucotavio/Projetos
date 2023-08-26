@@ -1,0 +1,8 @@
+.rotulo{
+    width: 750px;
+}
+div[id="mensagemConfigurarAplicacao_container"] {
+    position:fixed;
+    top:50%;
+    left:50%;
+}

@@ -1,0 +1,33 @@
+.entrada{
+    width: 300px;
+}
+
+.excluir{
+    width: 50px;
+    text-align: center !important;
+}
+
+.alterar{
+    width: 50px;
+}
+
+.ui-selectonemenu label.ui-selectonemenu-label{
+   width:90% !important;
+}
+
+.selectOneMenu{
+    width:308px !important
+}
+
+.selectOneMenuEditavel{
+    width:180px !important
+}
+.selecionar{
+    width: 65px;
+    text-align: center !important;
+}
+
+.campoDesabilitado{
+    color: black !important;
+}
+

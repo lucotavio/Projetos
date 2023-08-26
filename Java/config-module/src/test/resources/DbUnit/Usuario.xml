@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="1" NOME="Luciano Otavio Oliveira" LOGIN="luciano.otavio.oliveira" EMAIL="luciano.otavio.oliveira@gmail.com" SENHA="12312345"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="2" NOME="Lucas otavio Oliveira" LOGIN="lucas.otavio.oliveira" EMAIL="lucas.otavio.oliveira@gmail.com" SENHA="123123"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="3" NOME="Marcia" LOGIN="marcia" EMAIL="marcia@gmail.com" SENHA="1231234"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="4" NOME="Fernanda" LOGIN="fernanda" EMAIL="fernandaa@gmail.com" SENHA="123123"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="5" NOME="Paulo" LOGIN="paulo" EMAIL="paulo@terra.com" SENHA="4589632"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="6" NOME="Ricardo andre" LOGIN="ricardo" EMAIL="ricardo@terra.com" SENHA="369369"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="7" NOME="Marta" LOGIN="marta" EMAIL="marta@gmail.com" SENHA="123123"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="8" NOME="Pablo" LOGIN="PABLO" EMAIL="pablo@terra.com" SENHA="4589632"/>
+    <CONFIG_MODULE_TESTE.TB_USUARIO ID="9" NOME="Patricia" LOGIN="pAtricia" EMAIL="patricia@terra.com.eNg" SENHA="4589632"/>
+
+</dataset>

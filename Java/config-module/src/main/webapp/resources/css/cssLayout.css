@@ -1,0 +1,35 @@
+body{
+    font-size: 12px;
+}
+#tudo{
+    width: 1366px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#topo{
+    background: #ffd18b;
+}
+
+#principal{
+    width: 1100px;
+    float: right;
+    background: #d1ecf6;
+}
+
+#navegacao{
+    width: 260px;
+    float: left;
+    background: #a2daec;
+}
+
+#rodape{
+    clear: both;
+    height: 25px;
+    background: #5c9ccc;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bolder;
+}
+
+

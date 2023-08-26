@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <h:outputStylesheet library="css" name="cadastro.css"/>
+        <h:outputStylesheet library="css" name="cadastroUsuario.css"/>
+    </ui:define>
+    <ui:define name="corpo">
+        <h:form id="formCadastroBanco" prependId="false">
+            <p:panel id="toggleable" header="#{msg.DADOS_BANCO}" widgetVar="panel">
+                <h:inputHidden id="hiddenCadastrarBanco"/>
+                <p:messages closable="true"/>
+                <p:message for="hiddenCadastrarBanco" id="messages"/>
+                <h:panelGrid columns="2" styleClass="panelGridCadastro">
+                    <p:outputLabel value="#{msg.ALIAS}:" for="alias"/>
+                    <p:inputText value="#{bancoController.banco.alias}" id="alias" styleClass="entrada"/>
+
+                    <p:outputLabel value="#{msg.URL}:" for="URL"/>
+                    <p:inputText value="#{bancoController.banco.url}" id="URL" styleClass="entrada"/>
+
+                    <p:outputLabel value="#{msg.TIPO_BANCO}:" for="tipoBanco"/>
+                    <p:selectOneMenu id="tipoBanco" value="#{bancoController.banco.tipoBanco}" converter="entidadeConverter" styleClass="selectOneMenu">
+                        <f:selectItem itemLabel="#{msg.SELECIONE_TIPO_BANCO}" noSelectionOption="true"/>
+                        <f:selectItems value="#{bancoController.listaTipoBanco}" var="tipobanco" itemValue="#{tipobanco}" itemLabel="#{tipobanco.nome}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="#{msg.USUARIO}:" for="usuario"/>
+                    <p:inputText value="#{bancoController.banco.usuario}" id="usuario" styleClass="entrada"/>
+
+                    <p:outputLabel value="#{msg.SENHA}:" for="senha"/>
+                    <p:password value="#{bancoController.banco.senha}" id="senha" styleClass="entrada" />
+
+                    <p:commandButton value="#{msg.SALVAR}" action="#{bancoController.salvarBanco()}" update=":formCadastroBanco, :formListaBancos:tabelaListaBancos, :menuListaBancos:dataListBancos" rendered="#{bancoController.novoBanco}"/>
+                    <p:commandButton value="#{msg.ALTERAR}" action="#{bancoController.alterarBanco()}" update=":formCadastroBanco, :formListaBancos:tabelaListaBancos, :menuListaBancos:dataListBancos" rendered="#{!bancoController.novoBanco}"/>
+                    <p:commandButton value="#{msg.CANCELAR}" action="#{bancoController.cancelar()}" update=":formCadastroBanco" process="@this" rendered="#{!bancoController.novoBanco}"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="formListaBancos" prependId="false">
+            <div id="cadastrados">
+                <p:panel header="#{msg.BANCOS_CADASTRADOS}" id="painelListaBancos">
+                    <p:messages id="mensagemListaBancos" closable="true"/>
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="#{msg.ALIAS}:" for="pesquisaAlias"/>
+                        <p:inputText value="#{bancoController.pesquisaPorAlias}" id="pesquisaAlias" styleClass="entrada">
+                            <p:ajax event="change" process="pesquisaAlias"/>
+                        </p:inputText>
+                        <p:commandButton value="#{msg.PESQUISAR}" action="#{bancoController.pesquisarBancos()}" update="tabelaListaBancos"/>
+                    </h:panelGrid>
+                    <p:dataTable var="banco" id="tabelaListaBancos" value="#{bancoController.listaBancos}" paginator="true" sortBy="#{banco.alias}" paginatorPosition="bottom" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" emptyMessage="#{msg.NAO_EXISTEM_BANCOS_CADASTRADOS}">
+                        <p:column headerText="#{msg.ALIAS}">
+                            <h:outputText value="#{banco.alias}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg.URL}">
+                            <h:outputText value="#{banco.url}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg.TIPO_BANCO}">
+                            <h:outputText value="#{banco.tipoBanco.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg.USUARIO}">
+                            <h:outputText value="#{banco.usuario}"/>
+                        </p:column>
+                        
+                        <p:column headerText="#{msg.ALTERAR}" styleClass="alterar">
+                            <p:commandLink actionListener="#{bancoController.selecionarBancoParaAlterarCampos(banco)}" update=":formCadastroBanco" style="margin-left: 10px;">
+                                <p:graphicImage value="/resources/imagem/edit.png"/>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column headerText="#{msg.EXCLUIR}" styleClass="excluir">
+                            <p:commandLink actionListener="#{bancoController.excluirBanco(banco.id)}" update="tabelaListaBancos, :menuListaBancos:dataListBancos" style="margin-left: 10px;">
+                                <p:graphicImage value="/resources/imagem/delete.png"/>
+                                <p:confirm header="#{msg.CONFIRMACAO}" message="#{msg.EXCLUIR_BANCO}?" icon="ui-icon-alert"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:confirmDialog global="true" showEffect="explode" hideEffect="explode">
+                    <p:commandButton value="#{msg.SIM}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="#{msg.NAO}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
